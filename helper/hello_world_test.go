@@ -3,25 +3,24 @@ package helper
 import (
 	"fmt"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 func TestHelloWorldSucces(t *testing.T) {
+	assert := assert.New(t)
 	result := HelloWorld("Hendrik")
-	if result != "Hello Hendrik" {
-		// error
-		// t.Fail() // tidak menghentikan function unit test
-		t.Error("Result must be 'Hello Hendrik'") // akan memunculkan pesan dan memanggil function t.Fail()
-	}
 
-	fmt.Println("Test Hello World Success")
+	assert.Equal(result, "Hello Hendrik", "Message must be Hello Hendrik") // ini sama seperti t.Error() yang memanggil t.Fail()
+	fmt.Println("TestHelloWorldSucces with assert equal")
 }
 
 func TestHelloWorldFailed(t *testing.T) {
-	result := HelloWorld("Hendrik")
-	if result != "Hello Hendrik" {
-		// t.FailNow() // menghentikan function unit test
-		t.Fatal("result must be 'Hello Hendrik'") // Akan memunculkan pesan dan memanggil func t.FailNow()
-	}
+	result := HelloWorld("Jamal")
+	require := require.New(t)
+
+	require.Equal(result, "Hello Hendrik", "Result must be Hello Hendrik") // ini sama seperti t.Fatal() yang memanggil t.FailNow()
 
 	fmt.Println("Test Hello World Failed")
 }
