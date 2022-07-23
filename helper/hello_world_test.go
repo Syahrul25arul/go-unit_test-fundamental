@@ -9,6 +9,16 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+func TestMain(m *testing.M) {
+	// before
+	fmt.Println("Before Unit Test")
+
+	m.Run()
+
+	fmt.Println("After unit Test")
+	// after
+}
+
 func TestSkip(t *testing.T) {
 	if runtime.GOOS == "windows" {
 		t.Skip("Can not run Windows")
@@ -29,7 +39,7 @@ func TestHelloWorldFailed(t *testing.T) {
 	result := HelloWorld("Jamal")
 	require := require.New(t)
 
-	require.Equal(result, "Hello Hendrik", "Result must be Hello Hendrik") // ini sama seperti t.Fatal() yang memanggil t.FailNow()
+	require.NotEqual(result, "Hello Hendrik", "Result must be not Hello Hendrik") // ini sama seperti t.Fatal() yang memanggil t.FailNow()
 
 	fmt.Println("Test Hello World Failed")
 }
