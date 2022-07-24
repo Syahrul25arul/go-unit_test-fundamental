@@ -9,10 +9,14 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+var Assert *assert.Assertions
+var Require *require.Assertions
+
 func TestMain(m *testing.M) {
 	// before
 	fmt.Println("Before Unit Test")
-
+	Assert = assert.New(&testing.T{})
+	Require = require.New(&testing.T{})
 	m.Run()
 
 	fmt.Println("After unit Test")
@@ -24,22 +28,20 @@ func TestSkip(t *testing.T) {
 		t.Skip("Can not run Windows")
 	}
 	result := HelloWorld("Hendrik")
-	require.Equal(t, "Hello Hendrik", result, "Result must be 'Hello Hendrik'")
+	Require.Equal("Hello Hendrik", result, "Result must be 'Hello Hendrik'")
 }
 
 func TestHelloWorldSucces(t *testing.T) {
-	assert := assert.New(t)
 	result := HelloWorld("Hendrik")
 
-	assert.Equal(result, "Hello Hendrik", "Message must be Hello Hendrik") // ini sama seperti t.Error() yang memanggil t.Fail()
+	Assert.Equal(result, "Hello Hendrik", "Message must be Hello Hendrik") // ini sama seperti t.Error() yang memanggil t.Fail()
 	fmt.Println("TestHelloWorldSucces with assert equal")
 }
 
 func TestHelloWorldFailed(t *testing.T) {
 	result := HelloWorld("Jamal")
-	require := require.New(t)
 
-	require.NotEqual(result, "Hello Hendrik", "Result must be not Hello Hendrik") // ini sama seperti t.Fatal() yang memanggil t.FailNow()
+	Require.NotEqual(result, "Hello Hendrik", "Result must be not Hello Hendrik") // ini sama seperti t.Fatal() yang memanggil t.FailNow()
 
 	fmt.Println("Test Hello World Failed")
 }
@@ -48,11 +50,42 @@ func TestSubTest(t *testing.T) {
 	t.Run("Hendrik", func(t *testing.T) {
 		result := HelloWorld("Hendrik")
 
-		assert.Equal(t, result, "Hai Hendrik", "Message must be Hello Hendrik")
+		Assert.Equal(result, "Hai Hendrik", "Message must be Hello Hendrik")
 	})
 	t.Run("Array", func(t *testing.T) {
 		result := HelloWorld("Jamal")
 
-		require.NotEqual(t, result, "Hello Hendrik", "Result must be not Hello Hendrik")
+		Require.NotEqual(result, "Hello Hendrik", "Result must be not Hello Hendrik")
 	})
+}
+
+func TestHelloWorldTable(t *testing.T) {
+	tests := []struct {
+		name     string
+		request  string
+		expected string
+	}{
+		{
+			name:     "Hendrik",
+			request:  "Hendrik",
+			expected: "Hello Hendrik",
+		},
+		{
+			name:     "Rizal",
+			request:  "Rizal",
+			expected: "Hello Rizal",
+		},
+		{
+			name:     "Array",
+			request:  "Array",
+			expected: "Hello Array",
+		},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			result := HelloWorld(test.request)
+			Assert.Equal(test.expected, result, "Result must be "+test.expected)
+		})
+	}
 }
