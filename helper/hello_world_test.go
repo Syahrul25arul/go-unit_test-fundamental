@@ -12,6 +12,19 @@ import (
 var Assert *assert.Assertions
 var Require *require.Assertions
 
+func BenchmarkSubHelloWorld(b *testing.B) {
+	b.Run("Hendrik", func(b *testing.B) {
+		for i := 0; i < b.N; i++ {
+			HelloWorld("Hendrik")
+		}
+	})
+	b.Run("Jamal", func(b *testing.B) {
+		for i := 0; i < b.N; i++ {
+			HelloWorld("Jamal")
+		}
+	})
+}
+
 func BenchmarkHelloWorldHendrik(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		HelloWorld("Hendrik")
