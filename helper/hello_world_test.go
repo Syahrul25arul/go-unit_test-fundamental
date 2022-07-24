@@ -12,6 +12,30 @@ import (
 var Assert *assert.Assertions
 var Require *require.Assertions
 
+func BenchmarkTable(b *testing.B) {
+	benchmarks := []struct {
+		name    string
+		request string
+	}{
+		{
+			name:    "Hendrik",
+			request: "Hendrik Rizal Array",
+		},
+		{
+			name:    "Jamal",
+			request: "Jamal Adrianto",
+		},
+	}
+
+	for _, benchmark := range benchmarks {
+		b.Run(benchmark.name, func(b *testing.B) {
+			for i := 0; i < b.N; i++ {
+				HelloWorld(benchmark.request)
+			}
+		})
+	}
+}
+
 func BenchmarkSubHelloWorld(b *testing.B) {
 	b.Run("Hendrik", func(b *testing.B) {
 		for i := 0; i < b.N; i++ {
