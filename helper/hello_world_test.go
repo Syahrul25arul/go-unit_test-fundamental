@@ -43,3 +43,16 @@ func TestHelloWorldFailed(t *testing.T) {
 
 	fmt.Println("Test Hello World Failed")
 }
+
+func TestSubTest(t *testing.T) {
+	t.Run("Hendrik", func(t *testing.T) {
+		result := HelloWorld("Hendrik")
+
+		assert.Equal(t, result, "Hai Hendrik", "Message must be Hello Hendrik")
+	})
+	t.Run("Array", func(t *testing.T) {
+		result := HelloWorld("Jamal")
+
+		require.NotEqual(t, result, "Hello Hendrik", "Result must be not Hello Hendrik")
+	})
+}
