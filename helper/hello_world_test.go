@@ -12,6 +12,18 @@ import (
 var Assert *assert.Assertions
 var Require *require.Assertions
 
+func BenchmarkHelloWorldHendrik(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		HelloWorld("Hendrik")
+	}
+}
+
+func BenchmarkHelloWorldJamal(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		HelloWorld("Jamal")
+	}
+}
+
 func TestMain(m *testing.M) {
 	// before
 	fmt.Println("Before Unit Test")
